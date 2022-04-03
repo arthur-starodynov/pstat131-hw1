@@ -1,0 +1,86 @@
+---
+title: "HW 1"
+author: "PSTAT 131/231 Arthur Starodynov"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: yes
+    toc_float: yes
+    code_folding: show
+---
+
+Question 1: Define supervised and unsupervised learning. What are the difference(s) between them?
+
+In supervised learning input data with certain classes is provided into the model along with the output, meanwhile in unsupervised learning only the input data is provided into the model which we use to be able to find clusters without knowing exact accuracy. 
+
+Question 2: Explain the difference between a regression model and a classification model, specifically in the context of machine learning
+
+A regression model is used to be able to predict continuous values in a model meanwhile for the classification model it is used to be able to predict the discrete values.
+
+Question 3: Name two commonly used metrics for regression ML problems. Name two commonly used metrics for classification ML problems. 
+
+For Regression ML problems a common metric is that the response variable is quantitative and also uses the mean squared error and the RMSE to measure the model performance. Meanwhile for the classification ML problems the response variable is qualitative and is using the error test or F-1 to see the model performance.
+
+Question 4: As discussed, statistical models can be used for different purposes. These purposes can generally be classified into the following three categories. Provide a brief description of each.
+
+Descriptive models: Descriptive models choose the model that is best visually seen to emphasize a trend in the data, it will summarize the data without interpreting it. 
+
+Predictive models: The Predictive model is aimed to predict the best Y with the most minimum reducible error, and is not focused on hypothesis tests, it uses relationships with other models to predict future relationships.   
+
+Inferential models: Are made to state the relationship between the outcome and predictor and are often aimed to test theories, by the use of hypothesis testing and confidence intervals. 
+
+
+Question 5:
+Define mechanistic. Define empirically-driven. How do these model types differ? How are they similar?
+
+Mechanistic models will be able to describe data after specifying assumptions made, such as the parametric form for f and be able to put known factors from surrounding data into the model that is given at hand. For a mechanistic model some important information about the model needs to be known. An empirical model with be able to describe some data with low assumptions about the data not assuming much about f. Empirical model is used hen there are a lot of unknowns.
+
+A mechanistic model is easier to understand due to being able to inrepret the parameters and their relationships and roles within the model. However this model might be subject to high bias as the assumptions made bout the data. Meanwhile an empirical model might suffer from high variance.
+
+
+Question 6: 
+
+Given a voter’s profile/data, how likely is it that they will vote in favor of the candidate?
+
+This is seen as a inferential model and this is due to being able to look at data and facts to infer how the voter will most likely be able to favor the candidate there is no past history or information given to be able to predict the candidate. 
+
+In the second option the fact that the voter already had history and knows the candidate through personal contact this would make the model become a predictive one, as we are trying to predict the future using some predictive factors.
+
+Exercise 1: 
+```{r}
+data(mpg)
+ggplot(mpg, aes(x=hwy)) + geom_histogram()
+```
+By looking at this histogram we are able to see how many cars are within each of the subsets of miles per gallon on the highway. We can see that there are peaks around 16 and 26 mpg which could count for trucks and SUV and the second peak is for sedans and coupes. 
+
+Exercise 2)
+```{r}
+ggplot(mpg, aes(x=hwy, y=cty)) + geom_point()+ geom_smooth(method = lm)
+```
+It is seen that there is a linear relationship between hwy and cty mpg values. Thinking about the model this would make sense because a high fuel economy car should be able to hold this on the hwy and cty with little difference.
+
+Exercise 3) 
+```{r}
+head(mpg)
+data.frame(mpg)
+ggplot(mpg, aes(x = reorder(manufacturer, manufacturer, function(x) - length(x)))) + geom_bar()+ coord_flip()
+```
+Lincoln least and dodge the most. 
+Exercise 4) 
+```{r} 
+library(data.table)
+mpg <- setDT(copy(mpg))
+mpg_plot <- melt(mpg,measure.vars = c("hwy"),value.name = "val",variable.name = "var")
+ggplot(mpg_plot, aes(x = as.factor(cyl),y = val,fill = var))+
+  geom_boxplot()+
+  theme_light()
+```
+Higher # of cylinders tend means lower values for highway mpg.
+Exercise 5) 
+```{r}
+library(corrplot)
+data1 = mpg[ , sapply(mpg, is.numeric)]
+corrplot(cor(data1), method = "color", type = "lower")
+```
+The city and highway mpg are both negatively correlated with engine displacement and the # of cylinders. MPG on city and highway are strongly correlated. These all make sense as mpg was stated in exercise 2 and for the more powerful engines there is less fuel efficiency. In addition, # of cylinders and engine displacement are strongly correlated due to larger engines needing more cylinders to drive the car.
