@@ -1,0 +1,84 @@
+---
+title: "HW 1"
+author: "PSTAT 131/231 Arthur Starodynov"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+---
+
+Question 1: Define supervised and unsupervised learning. What are the difference(s) between them?
+
+In supervised learning input data is provided into the model along with the output, meanwhile in unsupervised learning only the input data is provided into the model. 
+
+Question 2: Explain the difference between a regression model and a classification model, specifically in the context of machine learning
+
+A regression model is used to be able to predict continuous values in a model meanwhile for the classification model it is used to be able to predict the discrete values.
+
+Question 3: Name two commonly used metrics for regression ML problems. Name two commonly used metrics for classification ML problems. 
+
+For Regression ML problems a common metric is that the response variable is quantitative and also uses the mean squared error meanwhile for the classification ML problems the response variable is qualitative and is using the error test. 
+
+Question 4: As discussed, statistical models can be used for different purposes. These purposes can generally be classified into the following three categories. Provide a brief description of each.
+
+Descriptive models: Descriptive models choose the model that is best visually seen to emphasize a trend in the data.
+
+Predictive models: The Predictive model is aimed to predict the best Y with the most minimum reducible error, and is not focused on hypothesis tests.  
+
+Inferential models: Are made to state the relationship between the outcome and predictor and are often aimed to test theories. 
+
+
+Question 5:
+Define mechanistic. Define empirically-driven. How do these model types differ? How are they similar?
+
+
+
+In general, is a mechanistic or empirically-driven model easier to understand? Explain your choice.
+
+Describe how the bias-variance tradeoff is related to the use of mechanistic or empirically-driven models.
+
+
+Question 6: 
+
+Given a voter’s profile/data, how likely is it that they will vote in favor of the candidate?
+
+This is seen as a inferential model and this is due to being able to look at data and facts to infer how the voter will most likely be able to favor the candidate there is no past history or information given to be able to predict the candidate. 
+
+In the second option the fact that the voter already had history and knows the candidate through personal contact this would make the model become a predictive one, as we are using the  
+
+Exercise 1: 
+```{r}
+data(mpg)
+ggplot(mpg, aes(x=hwy)) + geom_histogram()
+```
+By looking at this histogram we are able to see how many cars are within each of the subsets of miles per gallon on the highway. 
+
+Exercise 2)
+```{r}
+ggplot(mpg, aes(x=hwy, y=cty)) + geom_point()+ geom_smooth(method = lm)
+```
+
+
+Exercise 3) 
+```{r}
+head(mpg)
+data.frame(mpg)
+ggplot(mpg, aes(x = reorder(manufacturer, manufacturer, function(x) - length(x)))) + geom_bar()+ coord_flip()
+```
+Exercise 4) 
+```{r} 
+library(data.table)
+mpg <- setDT(copy(mpg))
+mpg_plot <- melt(mpg,measure.vars = c("hwy"),value.name = "val",variable.name = "var")
+ggplot(mpg_plot, aes(x = as.factor(cyl),y = val,fill = var))+
+  geom_boxplot()+
+  theme_light()
+```
+
+Exercise 5) 
+```{r}
+library(corrplot)
+data1 = mpg[ , sapply(mpg, is.numeric)]
+corrplot(cor(data1), method = "color", type = "lower")
+```
